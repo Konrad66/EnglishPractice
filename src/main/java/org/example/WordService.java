@@ -10,11 +10,10 @@ public class WordService {
 
     private static final String FILE_PATH = "words.csv";
 
-    List<Word> getAllWords(){
-
+    List<Word> getAllWords() {
         List<Word> words = new ArrayList<>();
-        try(Scanner scanner = new Scanner(new File(FILE_PATH))){
-            while (scanner.hasNextLine()){
+        try (Scanner scanner = new Scanner(new File(FILE_PATH))) {
+            while (scanner.hasNextLine()) {
                 String text = scanner.nextLine();
                 String[] data = text.split(";");
                 String polishWord = data[0];
@@ -23,14 +22,9 @@ public class WordService {
                 words.add(word);
             }
             System.out.println("Słowa zostały zczytane prawidłowo.");
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             System.out.println("Nie znaleziono pliku: " + e);
         }
-        Word potato = new Word("ziemniak", "potato");
-        Word tomato = new Word("pomidor", "tomato");
-        words.add(tomato);
-        words.add(potato);
-
         return words;
     }
 }

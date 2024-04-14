@@ -4,18 +4,16 @@ public class Word {
     private String polishWord;
     private String englishWord;
 
-    public Word(String polishWord, String englishWord) {
+    Word(String polishWord, String englishWord) {
         this.polishWord = polishWord;
         this.englishWord = englishWord;
     }
 
-    public String getPolishWord() {
+    String getPolishWord() {
         return polishWord;
     }
 
-    public String getEnglishWord() {
+    String getEnglishWord() {
         return englishWord;
     }
-
-
 }
