@@ -17,8 +17,8 @@ public class WordService {
             while (scanner.hasNextLine()) {
                 String text = scanner.nextLine();
                 String[] data = text.split(";");
-                String polishWord = data[0];
-                String englishWord = data[1];
+                String englishWord = data[0];
+                String polishWord = data[1];
                 Word word = new Word(polishWord, englishWord);
                 words.add(word);
             }
@@ -29,7 +29,14 @@ public class WordService {
         return words;
     }
 
-    void letsExercise(){
+    Word getRandomWord() {
+        List<Word> words = getAllWords();
+        Random random = new Random();
+        int randomIndex = random.nextInt(words.size());
+        return words.get(randomIndex);
+    }
 
+    boolean tryAnswer(String answer, Word word, Language typingLanguage) {
+        return answer.equals(word.getWordByLanguage(typingLanguage));
     }
 }
