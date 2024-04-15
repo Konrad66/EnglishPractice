@@ -28,6 +28,8 @@ public class MainController {
 
     private void executeOption(int decision) {
         switch (decision) {
+            case 0:
+                break;
             case 1:
                 List<Word> allWords = wordService.getAllWords();
                 System.out.println("Oto słowa do przećwiczenia: ");
@@ -35,6 +37,10 @@ public class MainController {
                     System.out.println(word.getPolishWord() + " - " + word.getEnglishWord());
                 }
                 break;
+            case 2:
+                wordService.letsExercise();
+            default:
+                System.out.println("Zły wybór. Wybierz opcje z listy.");
         }
     }
 }
