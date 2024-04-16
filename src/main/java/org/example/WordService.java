@@ -39,4 +39,10 @@ public class WordService {
     boolean tryAnswer(String answer, Word word, Language typingLanguage) {
         return answer.equals(word.getWordByLanguage(typingLanguage));
     }
+
+    Language getPracticeSession(){
+
+
+        return null;
+    }
 }
