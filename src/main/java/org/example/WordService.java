@@ -45,4 +45,9 @@ public class WordService {
 
         return null;
     }
+
+    int getWordsCount(){
+
+        return 0;
+    }
 }
