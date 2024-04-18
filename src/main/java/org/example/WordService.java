@@ -47,6 +47,9 @@ public class WordService {
     }
 
     int getWordsCount(){
+        List<Word> words = getAllWords();
+        words.size();
+
 
         return 0;
     }
