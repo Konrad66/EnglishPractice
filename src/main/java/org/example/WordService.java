@@ -43,7 +43,6 @@ public class WordService {
 
     Language getPracticeSession() {
 
-
         return null;
     }
 
