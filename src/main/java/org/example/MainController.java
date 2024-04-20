@@ -10,11 +10,11 @@ public class MainController {
 
     void startProgram() {
 
-        do{
+        do {
             printOptions();
             int decision = input.readNumber();
             executeOption(decision);
-        }while(running);
+        } while (running);
     }
 
     private void printOptions() {
@@ -39,14 +39,14 @@ public class MainController {
                 break;
             case 2:
                 practice();
-               break;
+                break;
             default:
                 System.out.println("Zły wybór. Wybierz opcje z listy.");
         }
     }
 
     private void practice() {
-      oneWordPractice();
+        oneWordPractice();
      /*   if (wordService.isDailySesionOver()) {
             System.out.println("Gratulacje! Wszystkie słowa przećwiczone, przyjdź jutro ćwiczyć kolejne");
         }*/
