@@ -72,6 +72,6 @@ public class WordService {
         }
         System.out.println("Total words to practice: " + wordsCount);
 
-        return 0;
+        return wordsCount;
     }
 }
