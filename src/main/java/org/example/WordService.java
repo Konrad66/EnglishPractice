@@ -75,7 +75,7 @@ public class WordService {
         return wordsCount;
     }
 
-    Word getRandomPracticeWord(){
+    Word getRandomPracticeWord() {
         List<Word> words = getPracticeWords();
         Random random = new Random();
         int randomIndex = random.nextInt(words.size());
