@@ -74,4 +74,11 @@ public class WordService {
 
         return wordsCount;
     }
+
+    Word getRandomPracticeWord(){
+        List<Word> words = getPracticeWords();
+        Random random = new Random();
+        int randomIndex = random.nextInt(words.size());
+        return words.get(randomIndex);
+    }
 }
