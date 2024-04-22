@@ -41,6 +41,7 @@ public class WordService {
         return answer.equals(word.getWordByLanguage(typingLanguage));
     }
 
+
     Language getPracticeSession() {
 
         return null;
