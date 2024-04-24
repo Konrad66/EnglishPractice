@@ -2,6 +2,8 @@ package org.example;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -10,9 +12,29 @@ import java.util.Scanner;
 public class WordService {
 
     private static final String FILE_PATH_WORDS = "words.csv";
-    private static final String FILE_PATH_PRACTICE_WORDS = "practiceWords.csv";
+    private static final int SINGLE_SESSION_SIZE = 4;
+    private List<Word> words;
+    private List<Word> wordsSession;
 
-    List<Word> getAllWords() {
+    //w momencie tworzenia Listy musimy przypisać do niej pustą listę inaczej zwróci null
+    //pola są inicjowane domyślnymi wartościami. dla typów prymitywnych: 0 lub false. Dla obiktowych null
+    //zmienne lokalne nie sa domyslnie inicjowane
+    //zmienna zadeklarowana w klasie to pole
+    //zmienna zadeklarowana w metodzie to zmienna lokalna
+
+    public WordService() {
+        words = loadAllWords();
+        wordsSession = new ArrayList<>();
+        for (int i = 0; i < SINGLE_SESSION_SIZE; i++) {
+            Word choosenWord = words.get(i);
+            wordsSession.add(choosenWord);
+        }
+    }
+
+    //załadować listę
+    // do drugiej listy tylko tyle ile w single sesion size
+
+    List<Word> loadAllWords() {
         List<Word> words = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File(FILE_PATH_WORDS))) {
             while (scanner.hasNextLine()) {
@@ -30,14 +52,20 @@ public class WordService {
         return words;
     }
 
+    List<Word> getSessionWords() {
+        return wordsSession;
+    }
+
     Word getRandomWord() {
-        List<Word> words = getAllWords();
+
         Random random = new Random();
-        int randomIndex = random.nextInt(words.size());
-        return words.get(randomIndex);
+        int randomIndex = random.nextInt(wordsSession.size());
+        return wordsSession.get(randomIndex);
     }
 
     boolean tryAnswer(String answer, Word word, Language typingLanguage) {
+        word.setPracticed(true);
+        wordsSession.remove(word);
         return answer.equals(word.getWordByLanguage(typingLanguage));
     }
 
@@ -46,32 +74,23 @@ public class WordService {
         return null;
     }
 
-    List<Word> getPracticeWords() {
-        List<Word> practiceWords = new ArrayList<>();
-        try (Scanner scanner = new Scanner(new File(FILE_PATH_PRACTICE_WORDS))) {
-            while (scanner.hasNextLine()) {
-                String text = scanner.nextLine();
-                String[] data = text.split(";");
-                String englishWord = data[0];
-                String polishWord = data[1];
-                Word word = new Word(englishWord, polishWord);
-                practiceWords.add(word);
-            }
-            System.out.println("Słowa zostały zczytane prawidłowo");
-        } catch (FileNotFoundException e) {
-            System.out.println("Nie znaleziono pliku o nazwie: " + e);
-        }
-        return practiceWords;
+    int getWordsCount() {
+        return wordsSession.size();
     }
 
-    int getWordsCount() {
-        List<Word> practiceWord = getPracticeWords();
-        int wordsCount = 0;
-        for (Word word : practiceWord) {
-            wordsCount++;
-        }
-        System.out.println("Total words to practice: " + wordsCount);
+    void save() {
+        try (PrintWriter printWriter = new PrintWriter(FILE_PATH_WORDS)) {
+            for (Word word : words) {
+                printWriter.println(word.toCsv());
+            }
 
-        return wordsCount;
+        } catch (FileNotFoundException e) {
+            System.out.println("Nie znaleziono pliku o nazwie: " + FILE_PATH_WORDS);
+        }
+
     }
 }
+//
+
+
+//różnice między fileWriter a PrintWriter

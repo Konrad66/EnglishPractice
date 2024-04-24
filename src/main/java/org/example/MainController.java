@@ -4,6 +4,7 @@ import java.util.List;
 
 public class MainController {
 
+
     private final WordService wordService = new WordService();
     private final Input input = new Input();
     private boolean running = true;
@@ -28,10 +29,12 @@ public class MainController {
     private void executeOption(int decision) {
         switch (decision) {
             case 0:
+                wordService.save();
+                System.out.println("Dane na temat dzisiejszej sesji zostały zapamiętane!");
                 running = false;
                 break;
             case 1:
-                List<Word> allWords = wordService.getAllWords();
+                List<Word> allWords = wordService.getSessionWords();
                 System.out.println("Oto słowa do przećwiczenia: ");
                 for (Word word : allWords) {
                     System.out.println(word.getPolishWord() + " - " + word.getEnglishWord());
