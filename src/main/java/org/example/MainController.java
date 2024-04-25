@@ -79,7 +79,7 @@ public class MainController {
         System.out.println("Jesteś w trybie pisania po: " + Language.ENGLISH);
         System.out.println("Zostało słówek: " + wordService.getWordsCount()); // jeśli ostatnio dało 3 i odpowiedziałem dobrze to teraz da 2
         Language secondLanguage = Language.POLISH;
-        Word word = wordService.getRandomPracticeWord(); //oczekuję że nie zwraca mi tych na które już odpowiedziałem dobrze
+        Word word = wordService.getRandomWord(); //oczekuję że nie zwraca mi tych na które już odpowiedziałem dobrze
         System.out.println("Przetłumacz: " + word.getWordByLanguage(secondLanguage) + "?");
         String answer = input.readText();
         boolean correct = wordService.tryAnswer(answer, word, secondLanguage);
