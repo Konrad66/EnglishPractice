@@ -2,7 +2,6 @@ package org.example;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +56,6 @@ public class WordService {
     }
 
     Word getRandomWord() {
-
         Random random = new Random();
         int randomIndex = random.nextInt(wordsSession.size());
         return wordsSession.get(randomIndex);
@@ -70,7 +68,6 @@ public class WordService {
     }
 
     Language getPracticeSession() {
-
         return null;
     }
 
@@ -83,14 +80,9 @@ public class WordService {
             for (Word word : words) {
                 printWriter.println(word.toCsv());
             }
-
         } catch (FileNotFoundException e) {
             System.out.println("Nie znaleziono pliku o nazwie: " + FILE_PATH_WORDS);
         }
-
     }
 }
-//
-
-
 //różnice między fileWriter a PrintWriter

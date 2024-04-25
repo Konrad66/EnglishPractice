@@ -5,7 +5,6 @@ public class Word {
     private String englishWord;
     private boolean practiced;
 
-
     Word(String polishWord, String englishWord) {
         this.polishWord = polishWord;
         this.englishWord = englishWord;
@@ -19,21 +18,20 @@ public class Word {
         return englishWord;
     }
 
-
     public void setPracticed(boolean practiced) {
         this.practiced = practiced;
     }
 
-    String getWordByLanguage(Language language){
-        if(language == Language.POLISH){
+    String getWordByLanguage(Language language) {
+        if (language == Language.POLISH) {
             return polishWord;
         } else {
             return englishWord;
         }
     }
 
-    String toCsv(){
-        return englishWord + ";" +  polishWord + ";" +  practiced;
+    String toCsv() {
+        return englishWord + ";" + polishWord + ";" + practiced;
     }
 
     @Override
