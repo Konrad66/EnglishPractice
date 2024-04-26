@@ -89,5 +89,4 @@ public class MainController {
             System.out.println("Zła odpowiedź!");
         }
     }
-
 }
