@@ -18,6 +18,10 @@ public class Word {
         return englishWord;
     }
 
+    public boolean isPracticed() {
+        return practiced;
+    }
+
     public void setPracticed(boolean practiced) {
         this.practiced = practiced;
     }

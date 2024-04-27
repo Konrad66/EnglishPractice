@@ -57,7 +57,8 @@ public class WordService {
 
     Word getRandomWord() {
         Random random = new Random();
-        int randomIndex = random.nextInt(wordsSession.size());
+        int randomIndex;
+        randomIndex = random.nextInt(wordsSession.size());
         return wordsSession.get(randomIndex);
     }
 
