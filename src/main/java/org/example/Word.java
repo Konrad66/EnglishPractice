@@ -5,9 +5,11 @@ public class Word {
     private String englishWord;
     private boolean practiced;
 
-    Word(String polishWord, String englishWord) {
+    Word(String polishWord, String englishWord, boolean practiced) {
         this.polishWord = polishWord;
         this.englishWord = englishWord;
+        this.practiced = practiced;
+
     }
 
     String getPolishWord() {

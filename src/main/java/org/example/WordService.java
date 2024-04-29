@@ -24,9 +24,11 @@ public class WordService {
     public WordService() {
         words = loadAllWords();
         wordsSession = new ArrayList<>();
-        for (int i = 0; i < SINGLE_SESSION_SIZE; i++) {
+        for (int i = 0; wordsSession.size() < SINGLE_SESSION_SIZE && i < words.size() ; i++) {
             Word choosenWord = words.get(i);
-            wordsSession.add(choosenWord);
+            if (!choosenWord.isPracticed()){
+                wordsSession.add(choosenWord);
+            }
         }
     }
 
@@ -41,7 +43,8 @@ public class WordService {
                 String[] data = text.split(";");
                 String englishWord = data[0];
                 String polishWord = data[1];
-                Word word = new Word(polishWord, englishWord);
+                boolean practiced = Boolean.parseBoolean(data[2]);
+                Word word = new Word(polishWord, englishWord, practiced);
                 words.add(word);
             }
             System.out.println("Słowa zostały zczytane prawidłowo.");
