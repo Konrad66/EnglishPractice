@@ -20,9 +20,12 @@ public class MainController {
 
     private void printOptions() {
         System.out.println("Witaj w programie do nauki słówek!");
+        System.out.println("Program ustawiony na trenowanie " + wordService.getSingleSessionSize() + " słów dziennie");
+
         System.out.println("Co chcesz zrobić?");
         System.out.println("1. Wyświetl wszystkie fiszki");
         System.out.println("2. Poćwicz słówka");
+        System.out.println("3. Zmienić ilość słów dziennie");
         System.out.println("0. Koniec");
     }
 
@@ -43,6 +46,11 @@ public class MainController {
             case 2:
                 practice();
                 break;
+            case 3:
+                System.out.println("Ile ustawić słów dziennie?");
+                int newWordsPerSession = input.readNumber();
+                wordService.setWordsPerSessionCount(newWordsPerSession);
+                System.out.println("Wielkość dziennej sesji zaktualizowana!");
             default:
                 System.out.println("Zły wybór. Wybierz opcje z listy.");
         }

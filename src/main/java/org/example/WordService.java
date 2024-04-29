@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class WordService {
 
     private static final String FILE_PATH_WORDS = "words.csv";
-    private static final int SINGLE_SESSION_SIZE = 4;
+    private int singleSessionSize = 4;
     private List<Word> words;
     private List<Word> wordsSession;
 
@@ -23,13 +23,8 @@ public class WordService {
 
     public WordService() {
         words = loadAllWords();
-        wordsSession = new ArrayList<>();
-        for (int i = 0; wordsSession.size() < SINGLE_SESSION_SIZE && i < words.size() ; i++) {
-            Word choosenWord = words.get(i);
-            if (!choosenWord.isPracticed()){
-                wordsSession.add(choosenWord);
-            }
-        }
+        setWordsPerSessionCount(singleSessionSize);
+
     }
 
     //załadować listę
@@ -77,6 +72,23 @@ public class WordService {
 
     int getWordsCount() {
         return wordsSession.size();
+    }
+
+    int getSingleSessionSize(){
+        return singleSessionSize;
+    }
+
+    int setWordsPerSessionCount(int newWordsPerSession){
+        singleSessionSize = newWordsPerSession;
+        wordsSession = new ArrayList<>();
+        for (int i = 0; wordsSession.size() < singleSessionSize && i < words.size() ; i++) {
+            Word choosenWord = words.get(i);
+            if (!choosenWord.isPracticed()){
+                wordsSession.add(choosenWord);
+            }
+            System.out.println(wordsSession);
+        }
+        return singleSessionSize;
     }
 
     void save() {
