@@ -74,16 +74,16 @@ public class WordService {
         return wordsSession.size();
     }
 
-    int getSingleSessionSize(){
+    int getSingleSessionSize() {
         return singleSessionSize;
     }
 
-    int setWordsPerSessionCount(int newWordsPerSession){
+    int setWordsPerSessionCount(int newWordsPerSession) {
         singleSessionSize = newWordsPerSession;
         wordsSession = new ArrayList<>();
-        for (int i = 0; wordsSession.size() < singleSessionSize && i < words.size() ; i++) {
+        for (int i = 0; wordsSession.size() < singleSessionSize && i < words.size(); i++) {
             Word choosenWord = words.get(i);
-            if (!choosenWord.isPracticed()){
+            if (!choosenWord.isPracticed()) {
                 wordsSession.add(choosenWord);
             }
             System.out.println(wordsSession);
