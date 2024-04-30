@@ -27,9 +27,6 @@ public class WordService {
 
     }
 
-    //załadować listę
-    // do drugiej listy tylko tyle ile w single sesion size
-
     List<Word> loadAllWords() {
         List<Word> words = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File(FILE_PATH_WORDS))) {
