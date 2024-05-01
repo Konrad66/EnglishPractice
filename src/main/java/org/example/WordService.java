@@ -1,8 +1,6 @@
 package org.example;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -11,7 +9,9 @@ import java.util.Scanner;
 public class WordService {
 
     private static final String FILE_PATH_WORDS = "words.csv";
-    private int singleSessionSize = 4;
+    private static final String FILE_PATH_SESSION_SIZE = "sessionSize.bin";
+    private static final int DEFAULT_SESSION_SIZE = 5;
+    private int singleSessionSize;
     private List<Word> words;
     private List<Word> wordsSession;
 
@@ -23,12 +23,16 @@ public class WordService {
 
     public WordService() {
         words = loadAllWords();
-        setWordsPerSessionCount(singleSessionSize);
-
+        setWordsPerSessionCount(loadSessionSize());
     }
 
     //załadować listę
     // do drugiej listy tylko tyle ile w single sesion size
+
+    //todo
+    //zmineić boolean na int z ile razy ćwiczyliśmy
+    //int ile razy dobrze odpowiedziałem
+    // później może brać pod uwagę te na które źle odpowiadaliśmy
 
     List<Word> loadAllWords() {
         List<Word> words = new ArrayList<>();
@@ -86,7 +90,6 @@ public class WordService {
             if (!choosenWord.isPracticed()){
                 wordsSession.add(choosenWord);
             }
-            System.out.println(wordsSession);
         }
         return singleSessionSize;
     }
@@ -99,6 +102,23 @@ public class WordService {
         } catch (FileNotFoundException e) {
             System.out.println("Nie znaleziono pliku o nazwie: " + FILE_PATH_WORDS);
         }
+
+        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(FILE_PATH_SESSION_SIZE))){
+            //FileOutputStream fileOutputStream
+            objectOutputStream.writeInt(singleSessionSize);
+        } catch (IOException e){
+            System.out.println("Błąd z zapisem pliku: " + FILE_PATH_SESSION_SIZE);
+        }
     }
+
+    int loadSessionSize(){
+        try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(FILE_PATH_SESSION_SIZE))) {
+            return objectInputStream.readInt();
+        } catch (IOException e){
+            System.out.println("Błąd z odczytem pliku: " + FILE_PATH_SESSION_SIZE);
+        }
+        return DEFAULT_SESSION_SIZE;
+    }
+
 }
 //różnice między fileWriter a PrintWriter
