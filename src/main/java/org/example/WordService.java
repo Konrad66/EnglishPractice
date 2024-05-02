@@ -80,16 +80,16 @@ public class WordService {
         return wordsSession.size();
     }
 
-    int getSingleSessionSize(){
+    int getSingleSessionSize() {
         return singleSessionSize;
     }
 
-    int setWordsPerSessionCount(int newWordsPerSession){
+    int setWordsPerSessionCount(int newWordsPerSession) {
         singleSessionSize = newWordsPerSession;
         wordsSession = new ArrayList<>();
-        for (int i = 0; wordsSession.size() < singleSessionSize && i < words.size() ; i++) {
+        for (int i = 0; wordsSession.size() < singleSessionSize && i < words.size(); i++) {
             Word choosenWord = words.get(i);
-            if (!choosenWord.isPracticed()){
+            if (!choosenWord.isPracticed()) {
                 wordsSession.add(choosenWord);
             }
         }
@@ -106,18 +106,18 @@ public class WordService {
             System.out.println("Nie znaleziono pliku o nazwie: " + FILE_PATH_WORDS);
         }
 
-        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(FILE_PATH_SESSION_SIZE))){
+        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(FILE_PATH_SESSION_SIZE))) {
             //FileOutputStream fileOutputStream
             objectOutputStream.writeInt(singleSessionSize);
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Błąd z zapisem pliku: " + FILE_PATH_SESSION_SIZE);
         }
     }
 
-    int loadSessionSize(){
+    int loadSessionSize() {
         try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(FILE_PATH_SESSION_SIZE))) {
             return objectInputStream.readInt();
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Błąd z odczytem pliku: " + FILE_PATH_SESSION_SIZE);
         }
         return DEFAULT_SESSION_SIZE;
