@@ -12,6 +12,7 @@ public class WordService {
     private static final String FILE_PATH_SESSION_SIZE = "sessionSize.bin";
     private static final int DEFAULT_SESSION_SIZE = 5;
     private int singleSessionSize;
+    private int numberOfCorrectNumbers;
     private List<Word> words;
     private List<Word> wordsSession;
 
@@ -43,7 +44,8 @@ public class WordService {
                 String englishWord = data[0];
                 String polishWord = data[1];
                 boolean practiced = Boolean.parseBoolean(data[2]);
-                Word word = new Word(polishWord, englishWord, practiced);
+                int attempt = Integer.parseInt(data[3]);
+                Word word = new Word(polishWord, englishWord, practiced, attempt);
                 words.add(word);
             }
             System.out.println("Słowa zostały zczytane prawidłowo.");
@@ -59,14 +61,14 @@ public class WordService {
 
     Word getRandomWord() {
         Random random = new Random();
-        int randomIndex;
-        randomIndex = random.nextInt(wordsSession.size());
+        int randomIndex = random.nextInt(wordsSession.size());
         return wordsSession.get(randomIndex);
     }
 
     boolean tryAnswer(String answer, Word word, Language typingLanguage) {
         word.setPracticed(true);
         wordsSession.remove(word);
+        word.setAttempt(+1);
         return answer.equals(word.getWordByLanguage(typingLanguage));
     }
 
