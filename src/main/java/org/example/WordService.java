@@ -96,7 +96,6 @@ public class WordService {
         return singleSessionSize;
     }
 
-
     void save() {
         try (PrintWriter printWriter = new PrintWriter(FILE_PATH_WORDS)) {
             for (Word word : words) {
