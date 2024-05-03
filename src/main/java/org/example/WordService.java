@@ -42,10 +42,9 @@ public class WordService {
                 String[] data = text.split(";");
                 String englishWord = data[0];
                 String polishWord = data[1];
-                boolean practiced = Boolean.parseBoolean(data[2]);
-                int attempt = Integer.parseInt(data[3]);
-                int numberOfCorrectNumbers = Integer.parseInt(data[4]);
-                Word word = new Word(polishWord, englishWord, practiced, attempt, numberOfCorrectNumbers);
+                int attempt = Integer.parseInt(data[2]);
+                int numberOfCorrectNumbers = Integer.parseInt(data[3]);
+                Word word = new Word(polishWord, englishWord, attempt, numberOfCorrectNumbers);
                 words.add(word);
             }
             System.out.println("Słowa zostały zczytane prawidłowo.");
@@ -68,7 +67,6 @@ public class WordService {
     boolean tryAnswer(String answer, Word word, Language typingLanguage) {
         word.incrementAttempt();
         if (answer.equals(word.getWordByLanguage(typingLanguage))) {
-            word.setPracticed(true);
             wordsSession.remove(word);
             word.incrementNumberOfCorrectAttempts();
             return true;

@@ -3,14 +3,12 @@ package org.example;
 public class Word {
     private String polishWord;
     private String englishWord;
-    private boolean practiced;
     private int attempt;
     private int numberOfCorrectAttempts;
 
-    Word(String polishWord, String englishWord, boolean practiced, int attempt, int numberOfCorrectAttempts) {
+    Word(String polishWord, String englishWord, int attempt, int numberOfCorrectAttempts) {
         this.polishWord = polishWord;
         this.englishWord = englishWord;
-        this.practiced = practiced;
         this.attempt = attempt;
         this.numberOfCorrectAttempts = numberOfCorrectAttempts;
     }
@@ -32,11 +30,10 @@ public class Word {
     }
 
     public boolean isPracticed() {
-        return practiced;
-    }
-
-    public void setPracticed(boolean practiced) {
-        this.practiced = practiced;
+        if(numberOfCorrectAttempts >= 1){
+            return true;
+        }
+        return false;
     }
 
     public void incrementAttempt() {
@@ -56,7 +53,7 @@ public class Word {
     }
 
     String toCsv() {
-        return englishWord + ";" + polishWord + ";" + practiced + ";" + attempt + ";" + numberOfCorrectAttempts;
+        return englishWord + ";" + polishWord + ";" + attempt + ";" + numberOfCorrectAttempts;
     }
 
     @Override
@@ -64,9 +61,8 @@ public class Word {
         return "Word{" +
                 "polishWord='" + polishWord + '\'' +
                 ", englishWord='" + englishWord + '\'' +
-                ", practiced=" + practiced +
                 ", attempt=" + attempt +
-                ", numberOfCorrectNumbers=" + numberOfCorrectAttempts +
+                ", numberOfCorrectAttempts=" + numberOfCorrectAttempts +
                 '}';
     }
 }
