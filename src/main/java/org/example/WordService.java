@@ -45,7 +45,8 @@ public class WordService {
                 String polishWord = data[1];
                 boolean practiced = Boolean.parseBoolean(data[2]);
                 int attempt = Integer.parseInt(data[3]);
-                Word word = new Word(polishWord, englishWord, practiced, attempt);
+                int numberOfCorrectNumbers = Integer.parseInt(data[4]);
+                Word word = new Word(polishWord, englishWord, practiced, attempt, numberOfCorrectNumbers);
                 words.add(word);
             }
             System.out.println("Słowa zostały zczytane prawidłowo.");
@@ -66,10 +67,20 @@ public class WordService {
     }
 
     boolean tryAnswer(String answer, Word word, Language typingLanguage) {
-        word.setPracticed(true);
-        wordsSession.remove(word);
-        word.setAttempt(+1);
-        return answer.equals(word.getWordByLanguage(typingLanguage));
+        if (checkAnswer(answer)) {
+            word.setPracticed(true);
+            wordsSession.remove(word);
+            word.setAttempt(+1);
+            word.setNumberOfCorrectNumbers(+1);
+            return answer.equals(word.getWordByLanguage(typingLanguage));
+        } else {
+            word.setAttempt(+1);
+        }
+        return false;
+    }
+
+    boolean checkAnswer(String word) {
+        return words.contains(word);
     }
 
     Language getPracticeSession() {

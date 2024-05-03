@@ -5,13 +5,14 @@ public class Word {
     private String englishWord;
     private boolean practiced;
     private int attempt;
+    private int numberOfCorrectNumbers;
 
-    Word(String polishWord, String englishWord, boolean practiced, int attempt) {
+    Word(String polishWord, String englishWord, boolean practiced, int attempt, int numberOfCorrectNumbers) {
         this.polishWord = polishWord;
         this.englishWord = englishWord;
         this.practiced = practiced;
         this.attempt = attempt;
-
+        this.numberOfCorrectNumbers = numberOfCorrectNumbers;
     }
 
     String getPolishWord() {
@@ -26,6 +27,10 @@ public class Word {
         return attempt;
     }
 
+    public int getNumberOfCorrectNumbers() {
+        return numberOfCorrectNumbers;
+    }
+
     public boolean isPracticed() {
         return practiced;
     }
@@ -38,6 +43,10 @@ public class Word {
         this.attempt = attempt;
     }
 
+    public void setNumberOfCorrectNumbers(int numberOfCorrectNumbers) {
+        this.numberOfCorrectNumbers = numberOfCorrectNumbers;
+    }
+
     String getWordByLanguage(Language language) {
         if (language == Language.POLISH) {
             return polishWord;
@@ -47,7 +56,7 @@ public class Word {
     }
 
     String toCsv() {
-        return englishWord + ";" + polishWord + ";" + practiced + ";" + attempt;
+        return englishWord + ";" + polishWord + ";" + practiced + ";" + attempt + ";" + numberOfCorrectNumbers;
     }
 
     @Override
@@ -56,6 +65,8 @@ public class Word {
                 "polishWord='" + polishWord + '\'' +
                 ", englishWord='" + englishWord + '\'' +
                 ", practiced=" + practiced +
+                ", attempt=" + attempt +
+                ", numberOfCorrectNumbers=" + numberOfCorrectNumbers +
                 '}';
     }
 }
