@@ -12,7 +12,6 @@ public class WordService {
     private static final String FILE_PATH_SESSION_SIZE = "sessionSize.bin";
     private static final int DEFAULT_SESSION_SIZE = 5;
     private int singleSessionSize;
-    private int numberOfCorrectNumbers;
     private List<Word> words;
     private List<Word> wordsSession;
 
@@ -67,20 +66,14 @@ public class WordService {
     }
 
     boolean tryAnswer(String answer, Word word, Language typingLanguage) {
-        if (checkAnswer(answer)) {
+        word.incrementAttempt();
+        if (answer.equals(word.getWordByLanguage(typingLanguage))) {
             word.setPracticed(true);
             wordsSession.remove(word);
-            word.setAttempt(+1);
-            word.setNumberOfCorrectNumbers(+1);
-            return answer.equals(word.getWordByLanguage(typingLanguage));
-        } else {
-            word.setAttempt(+1);
+            word.incrementNumberOfCorrectAttempts();
+            return true;
         }
         return false;
-    }
-
-    boolean checkAnswer(String word) {
-        return words.contains(word);
     }
 
     Language getPracticeSession() {

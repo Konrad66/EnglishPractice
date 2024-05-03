@@ -5,14 +5,14 @@ public class Word {
     private String englishWord;
     private boolean practiced;
     private int attempt;
-    private int numberOfCorrectNumbers;
+    private int numberOfCorrectAttempts;
 
-    Word(String polishWord, String englishWord, boolean practiced, int attempt, int numberOfCorrectNumbers) {
+    Word(String polishWord, String englishWord, boolean practiced, int attempt, int numberOfCorrectAttempts) {
         this.polishWord = polishWord;
         this.englishWord = englishWord;
         this.practiced = practiced;
         this.attempt = attempt;
-        this.numberOfCorrectNumbers = numberOfCorrectNumbers;
+        this.numberOfCorrectAttempts = numberOfCorrectAttempts;
     }
 
     String getPolishWord() {
@@ -27,8 +27,8 @@ public class Word {
         return attempt;
     }
 
-    public int getNumberOfCorrectNumbers() {
-        return numberOfCorrectNumbers;
+    public int getNumberOfCorrectAttempts() {
+        return numberOfCorrectAttempts;
     }
 
     public boolean isPracticed() {
@@ -39,12 +39,12 @@ public class Word {
         this.practiced = practiced;
     }
 
-    public void setAttempt(int attempt) {
-        this.attempt = attempt;
+    public void incrementAttempt() {
+        attempt++;
     }
 
-    public void setNumberOfCorrectNumbers(int numberOfCorrectNumbers) {
-        this.numberOfCorrectNumbers = numberOfCorrectNumbers;
+    public void incrementNumberOfCorrectAttempts() {
+        numberOfCorrectAttempts++;
     }
 
     String getWordByLanguage(Language language) {
@@ -56,7 +56,7 @@ public class Word {
     }
 
     String toCsv() {
-        return englishWord + ";" + polishWord + ";" + practiced + ";" + attempt + ";" + numberOfCorrectNumbers;
+        return englishWord + ";" + polishWord + ";" + practiced + ";" + attempt + ";" + numberOfCorrectAttempts;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class Word {
                 ", englishWord='" + englishWord + '\'' +
                 ", practiced=" + practiced +
                 ", attempt=" + attempt +
-                ", numberOfCorrectNumbers=" + numberOfCorrectNumbers +
+                ", numberOfCorrectNumbers=" + numberOfCorrectAttempts +
                 '}';
     }
 }

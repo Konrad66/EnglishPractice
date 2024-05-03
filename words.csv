@@ -1,6 +1,6 @@
-variable;zmienna;false;1;0
-method;metoda;false;1;0
-function;funkcja;false;0;0
+variable;zmienna;true;2;1
+method;metoda;true;1;1
+function;funkcja;true;1;1
 parameter;parametr;false;0;0
 array;tablica;false;0;0
 loop;pętla;false;0;0
