@@ -64,13 +64,13 @@ public class MainController {
     }
 
     private void oneWordPractice() {
-      /* docelowa wersja
+       /*docelowa wersja
        PracticeSession practiceSession= wordService.getPracticeSession();
         System.out.println("Jesteś w trybie pisania po: " + practiceSession.getLaguage());
         System.out.println("Zostało słówek: " + practiceSession.getWordsCount());
-        Language secondLanguage = practiceSession.getLanguage().getSecond();
+        Language typingLanguage = practiceSession.getLanguage().getSecond();
         Word word = wordService.getRandomWord();
-        System.out.println("Przetłumacz: " + word.getWordByLanguage(secondLanguage) + "?");
+        System.out.println("Przetłumacz: " + word.getWordByLanguage(typingLanguage) + "?");
         String answer = input.readText();
         boolean correct = wordService.tryAnswer(answer, word);
         if (correct) {
@@ -84,14 +84,16 @@ public class MainController {
             return;
         }
 
-        System.out.println("Jesteś w trybie pisania po: " + Language.ENGLISH);
+        Language typingLanguage = wordService.getTypingLanguage();
+        Language wordLanguage = typingLanguage.getSecond();
+        System.out.println("Jesteś w trybie pisania po: " + typingLanguage);
         System.out.println("Zostało słówek: " + wordService.getWordsCount()); // jeśli ostatnio dało 3 i odpowiedziałem dobrze to teraz da 2
-        Language secondLanguage = Language.ENGLISH;
-        Language firstLanguage = Language.POLISH;
+
+
         Word word = wordService.getRandomWord(); //oczekuję że nie zwraca mi tych na które już odpowiedziałem dobrze
-        System.out.println("Przetłumacz: " + word.getWordByLanguage(firstLanguage) + "?");
+        System.out.println("Przetłumacz: " + word.getWordByLanguage(wordLanguage) + "?");
         String answer = input.readText();
-        boolean correct = wordService.tryAnswer(answer, word, secondLanguage);
+        boolean correct = wordService.tryAnswer(answer, word);
         if (correct) {
             System.out.println("Dobra odpowiedź!");
         } else {
