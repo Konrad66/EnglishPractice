@@ -4,13 +4,16 @@ public class Word {
     private String polishWord;
     private String englishWord;
     private int attempt;
-    private int numberOfCorrectAttempts;
+    private int correctAttemptsPolish;
+    private int correctAttemptsEnglish;
 
-    Word(String polishWord, String englishWord, int attempt, int numberOfCorrectAttempts) {
+
+    Word(String polishWord, String englishWord, int attempt, int correctAttemptsPolish, int correctAttemptsEnglish) {
         this.polishWord = polishWord;
         this.englishWord = englishWord;
         this.attempt = attempt;
-        this.numberOfCorrectAttempts = numberOfCorrectAttempts;
+        this.correctAttemptsPolish = correctAttemptsPolish;
+        this.correctAttemptsEnglish = correctAttemptsEnglish;
     }
 
     String getPolishWord() {
@@ -25,12 +28,15 @@ public class Word {
         return attempt;
     }
 
-    public int getNumberOfCorrectAttempts() {
-        return numberOfCorrectAttempts;
-    }
+    public boolean isPracticed(Language language) {
+        int correctAttemptsByLanguage;
+        if(language.equals(Language.POLISH)){
+            correctAttemptsByLanguage = correctAttemptsPolish;
+        } else {
+            correctAttemptsByLanguage = correctAttemptsEnglish;
+        }
 
-    public boolean isPracticed() {
-        if(numberOfCorrectAttempts >= 1){
+        if(correctAttemptsByLanguage >= 1){
             return true;
         }
         return false;
@@ -41,7 +47,7 @@ public class Word {
     }
 
     public void incrementNumberOfCorrectAttempts() {
-        numberOfCorrectAttempts++;
+        correctAttemptsPolish++;
     }
 
     String getWordByLanguage(Language language) {
@@ -53,7 +59,7 @@ public class Word {
     }
 
     String toCsv() {
-        return englishWord + ";" + polishWord + ";" + attempt + ";" + numberOfCorrectAttempts;
+        return englishWord + ";" + polishWord + ";" + attempt + ";" + correctAttemptsPolish + ";" + correctAttemptsEnglish;
     }
 
     @Override
@@ -62,7 +68,7 @@ public class Word {
                 "polishWord='" + polishWord + '\'' +
                 ", englishWord='" + englishWord + '\'' +
                 ", attempt=" + attempt +
-                ", numberOfCorrectAttempts=" + numberOfCorrectAttempts +
+                ", numberOfCorrectAttempts=" + correctAttemptsPolish +
                 '}';
     }
 }

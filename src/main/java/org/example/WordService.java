@@ -14,6 +14,7 @@ public class WordService {
     private int singleSessionSize;
     private List<Word> words;
     private List<Word> wordsSession;
+    private Language typingLanguage = Language.POLISH;
 
     //w momencie tworzenia Listy musimy przypisać do niej pustą listę inaczej zwróci null
     //pola są inicjowane domyślnymi wartościami. dla typów prymitywnych: 0 lub false. Dla obiktowych null
@@ -22,6 +23,15 @@ public class WordService {
     //zmienna zadeklarowana w metodzie to zmienna lokalna
 
     public WordService() {
+        prepareSession();
+        if(wordsSession.isEmpty()){
+            typingLanguage = Language.ENGLISH;
+            prepareSession();
+        }
+
+    }
+
+    private void prepareSession(){
         words = loadAllWords();
         setWordsPerSessionCount(loadSessionSize());
     }
@@ -43,8 +53,9 @@ public class WordService {
                 String englishWord = data[0];
                 String polishWord = data[1];
                 int attempt = Integer.parseInt(data[2]);
-                int numberOfCorrectNumbers = Integer.parseInt(data[3]);
-                Word word = new Word(polishWord, englishWord, attempt, numberOfCorrectNumbers);
+                int correctAttemptsPolish = Integer.parseInt(data[3]);
+                int correctAttemptsEnglish = Integer.parseInt(data[4]);
+                Word word = new Word(polishWord, englishWord, attempt, correctAttemptsPolish, correctAttemptsEnglish);
                 words.add(word);
             }
             System.out.println("Słowa zostały zczytane prawidłowo.");
@@ -64,10 +75,11 @@ public class WordService {
         return wordsSession.get(randomIndex);
     }
 
-    boolean tryAnswer(String answer, Word word, Language typingLanguage) {
+    boolean tryAnswer(String answer, Word word) {
         word.incrementAttempt();
-        if (answer.equals(word.getWordByLanguage(typingLanguage))) {
+        if (answer.equals(word.getWordByLanguage(getTypingLanguage()))) {
             wordsSession.remove(word);
+            //todo zwiekszyc ale ten jezyk ktory cwiczymy
             word.incrementNumberOfCorrectAttempts();
             return true;
         }
@@ -86,12 +98,16 @@ public class WordService {
         return singleSessionSize;
     }
 
+    Language getTypingLanguage(){
+        return typingLanguage;
+    }
+
     int setWordsPerSessionCount(int newWordsPerSession) {
         singleSessionSize = newWordsPerSession;
         wordsSession = new ArrayList<>();
         for (int i = 0; wordsSession.size() < singleSessionSize && i < words.size(); i++) {
             Word choosenWord = words.get(i);
-            if (!choosenWord.isPracticed()) {
+            if (!choosenWord.isPracticed(typingLanguage)) {
                 wordsSession.add(choosenWord);
             }
         }
@@ -126,3 +142,18 @@ public class WordService {
 
 }
 //różnice między fileWriter a PrintWriter
+//POLSKI
+// 5- wielkosc sesji
+//6- przerobione
+//10 - calosc
+
+//przyjdz jutro
+
+
+//zmieniam jezyk na ANGIELSKI
+//0
+//10
+
+//todo
+// kolejna pula - dodac rozne pule na rozne slowa
+// dodac kolejna zmienna okreslajaca kategorie
