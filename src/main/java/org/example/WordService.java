@@ -80,7 +80,7 @@ public class WordService {
         if (answer.equals(word.getWordByLanguage(getTypingLanguage()))) {
             wordsSession.remove(word);
             //todo zwiekszyc ale ten jezyk ktory cwiczymy
-            word.incrementNumberOfCorrectAttempts();
+            word.incrementNumberOfCorrectAttempts(getTypingLanguage());
             return true;
         }
         return false;

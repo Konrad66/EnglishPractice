@@ -14,6 +14,7 @@ public class Word {
         this.attempt = attempt;
         this.correctAttemptsPolish = correctAttemptsPolish;
         this.correctAttemptsEnglish = correctAttemptsEnglish;
+
     }
 
     String getPolishWord() {
@@ -46,8 +47,12 @@ public class Word {
         attempt++;
     }
 
-    public void incrementNumberOfCorrectAttempts() {
-        correctAttemptsPolish++;
+    public void incrementNumberOfCorrectAttempts(Language language) {
+        if(language.equals(Language.POLISH)){
+            correctAttemptsPolish++;
+        } else {
+            correctAttemptsEnglish++;
+        }
     }
 
     String getWordByLanguage(Language language) {
