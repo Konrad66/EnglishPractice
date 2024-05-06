@@ -1,17 +1,16 @@
 package org.example;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class WordService {
 
     private static final String FILE_PATH_WORDS = "words.csv";
     private static final String FILE_PATH_SESSION_SIZE = "sessionSize.bin";
     private static final int DEFAULT_SESSION_SIZE = 5;
+    private static final String DEFAULT_CATEGORY = "all";
     private int singleSessionSize;
+    private String actualCategory = DEFAULT_CATEGORY;
     private List<Word> words;
     private List<Word> wordsSession;
     private Language typingLanguage = Language.POLISH;
@@ -23,26 +22,13 @@ public class WordService {
     //zmienna zadeklarowana w metodzie to zmienna lokalna
 
     public WordService() {
-        prepareSession();
-        if(wordsSession.isEmpty()){
-            typingLanguage = Language.ENGLISH;
-            prepareSession();
-        }
-
-    }
-
-    private void prepareSession(){
         words = loadAllWords();
-        setWordsPerSessionCount(loadSessionSize());
+        singleSessionSize = loadSessionSize();
+        reloadSession();
+        if (wordsSession.isEmpty()) {
+            changeTypingLanguage(Language.ENGLISH);
+        }
     }
-
-    //załadować listę
-    // do drugiej listy tylko tyle ile w single sesion size
-
-    //todo
-    //zmineić boolean na int z ile razy ćwiczyliśmy
-    //int ile razy dobrze odpowiedziałem
-    // później może brać pod uwagę te na które źle odpowiadaliśmy
 
     List<Word> loadAllWords() {
         List<Word> words = new ArrayList<>();
@@ -55,7 +41,8 @@ public class WordService {
                 int attempt = Integer.parseInt(data[2]);
                 int correctAttemptsPolish = Integer.parseInt(data[3]);
                 int correctAttemptsEnglish = Integer.parseInt(data[4]);
-                Word word = new Word(polishWord, englishWord, attempt, correctAttemptsPolish, correctAttemptsEnglish);
+                String category = data[5];
+                Word word = new Word(polishWord, englishWord, attempt, correctAttemptsPolish, correctAttemptsEnglish, category);
                 words.add(word);
             }
             System.out.println("Słowa zostały zczytane prawidłowo.");
@@ -65,50 +52,15 @@ public class WordService {
         return words;
     }
 
-    List<Word> getSessionWords() {
-        return wordsSession;
-    }
-
-    Word getRandomWord() {
-        Random random = new Random();
-        int randomIndex = random.nextInt(wordsSession.size());
-        return wordsSession.get(randomIndex);
-    }
-
-    boolean tryAnswer(String answer, Word word) {
-        word.incrementAttempt();
-        if (answer.equals(word.getWordByLanguage(getTypingLanguage()))) {
-            wordsSession.remove(word);
-            //todo zwiekszyc ale ten jezyk ktory cwiczymy
-            word.incrementNumberOfCorrectAttempts(getTypingLanguage());
-            return true;
-        }
-        return false;
-    }
-
-    Language getPracticeSession() {
-        return null;
-    }
-
-    int getWordsCount() {
-        return wordsSession.size();
-    }
-
-    int getSingleSessionSize() {
-        return singleSessionSize;
-    }
-
-    Language getTypingLanguage(){
-        return typingLanguage;
-    }
-
-    int setWordsPerSessionCount(int newWordsPerSession) {
-        singleSessionSize = newWordsPerSession;
+    int reloadSession() {
         wordsSession = new ArrayList<>();
         for (int i = 0; wordsSession.size() < singleSessionSize && i < words.size(); i++) {
             Word choosenWord = words.get(i);
             if (!choosenWord.isPracticed(typingLanguage)) {
-                wordsSession.add(choosenWord);
+                if (actualCategory.equals(DEFAULT_CATEGORY) || choosenWord.getCategory().equals(actualCategory)) {
+                    //jeśli aktualna kategoria jest all a jesli nie to kategoria rozpatrywanego słowa jest taka jaka wybvral użytkownik
+                    wordsSession.add(choosenWord);
+                }
             }
         }
         return singleSessionSize;
@@ -140,20 +92,73 @@ public class WordService {
         return DEFAULT_SESSION_SIZE;
     }
 
+    List<Word> getAllWords() {
+        return words;
+    }
+
+    Word getRandomWord() {
+        Random random = new Random();
+        int randomIndex = random.nextInt(wordsSession.size());
+        return wordsSession.get(randomIndex);
+    }
+
+    boolean tryAnswer(String answer, Word word) {
+        word.incrementAttempt();
+        if (answer.equals(word.getWordByLanguage(getTypingLanguage()))) {
+            wordsSession.remove(word);
+            word.incrementNumberOfCorrectAttempts(getTypingLanguage());
+            return true;
+        }
+        return false;
+    }
+
+    int getWordsCount() {
+        return wordsSession.size();
+    }
+
+    int getSingleSessionSize() {
+        return singleSessionSize;
+    }
+
+    Language getTypingLanguage() {
+        return typingLanguage;
+    }
+
+    String getActualCategory() {
+        return actualCategory;
+    }
+
+    List<String> getAllCategories() {
+        List<String> categories = new ArrayList<>();
+        categories.add(DEFAULT_CATEGORY);
+        for (Word word : words) {
+            if (!categories.contains(word.getCategory())) {
+                categories.add(word.getCategory());
+            }
+        }
+        return categories;
+    }
+
+    void changeCategory(String selectedCategory) {
+        actualCategory = selectedCategory;
+        reloadSession();
+    }
+
+    void changeSessionSize(int newWordsPerSession) {
+        singleSessionSize = newWordsPerSession;
+        reloadSession();
+    }
+
+    private void changeTypingLanguage(Language selectedLanguage) {
+        typingLanguage = selectedLanguage;
+        reloadSession();
+    }
 }
-//różnice między fileWriter a PrintWriter
-//POLSKI
-// 5- wielkosc sesji
-//6- przerobione
-//10 - calosc
-
-//przyjdz jutro
 
 
-//zmieniam jezyk na ANGIELSKI
-//0
-//10
+//ukrywanie zrobionych
 
-//todo
-// kolejna pula - dodac rozne pule na rozne slowa
-// dodac kolejna zmienna okreslajaca kategorie
+//todo space distribution - jak czesto sa przypominane slowa, jakby to mialo dzialac, na bazie tego czy dobrze odpowiedzielismy, zaplanowac schemat powtórki słówek, jeśli dobrze odpowiedziałęś to przypomni np za 3 dni
+
+//jeśli dobrze odpowiedziałeś to przypomni za 3 min a jeśli nie to za 1 min
+//3 min / 9 min /
