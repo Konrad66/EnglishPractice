@@ -6,15 +6,18 @@ public class Word {
     private int attempt;
     private int correctAttemptsPolish;
     private int correctAttemptsEnglish;
+    private String category;
 
 
-    Word(String polishWord, String englishWord, int attempt, int correctAttemptsPolish, int correctAttemptsEnglish) {
+
+
+    Word(String polishWord, String englishWord, int attempt, int correctAttemptsPolish, int correctAttemptsEnglish, String category) {
         this.polishWord = polishWord;
         this.englishWord = englishWord;
         this.attempt = attempt;
         this.correctAttemptsPolish = correctAttemptsPolish;
         this.correctAttemptsEnglish = correctAttemptsEnglish;
-
+        this.category = category;
     }
 
     String getPolishWord() {
@@ -25,8 +28,8 @@ public class Word {
         return englishWord;
     }
 
-    public int getAttempt() {
-        return attempt;
+    public String getCategory() {
+        return category;
     }
 
     public boolean isPracticed(Language language) {
@@ -64,7 +67,7 @@ public class Word {
     }
 
     String toCsv() {
-        return englishWord + ";" + polishWord + ";" + attempt + ";" + correctAttemptsPolish + ";" + correctAttemptsEnglish;
+        return englishWord + ";" + polishWord + ";" + attempt + ";" + correctAttemptsPolish + ";" + correctAttemptsEnglish + ";" + category;
     }
 
     @Override
@@ -73,7 +76,9 @@ public class Word {
                 "polishWord='" + polishWord + '\'' +
                 ", englishWord='" + englishWord + '\'' +
                 ", attempt=" + attempt +
-                ", numberOfCorrectAttempts=" + correctAttemptsPolish +
+                ", correctAttemptsPolish=" + correctAttemptsPolish +
+                ", correctAttemptsEnglish=" + correctAttemptsEnglish +
+                ", category=" + category +
                 '}';
     }
 }
