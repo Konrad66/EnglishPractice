@@ -21,11 +21,13 @@ public class MainController {
     private void printOptions() {
         System.out.println("Witaj w programie do nauki słówek!");
         System.out.println("Program ustawiony na trenowanie " + wordService.getSingleSessionSize() + " słów dziennie");
+        System.out.println("Program ustawiony na kategorię: " + wordService.getActualCategory());
 
         System.out.println("Co chcesz zrobić?");
         System.out.println("1. Wyświetl wszystkie fiszki");
         System.out.println("2. Poćwicz słówka");
         System.out.println("3. Zmienić ilość słów dziennie");
+        System.out.println("4. Zmień kategorię");
         System.out.println("0. Koniec");
     }
 
@@ -37,10 +39,10 @@ public class MainController {
                 running = false;
                 break;
             case 1:
-                List<Word> allWords = wordService.getSessionWords();
+                List<Word> allWords = wordService.getAllWords();
                 System.out.println("Oto słowa do przećwiczenia: ");
                 for (Word word : allWords) {
-                    System.out.println(word.getPolishWord() + " - " + word.getEnglishWord());
+                    System.out.println(word.getPolishWord() + " - " + word.getEnglishWord() + " - " + word.getCategory());
                 }
                 break;
             case 2:
@@ -49,37 +51,36 @@ public class MainController {
             case 3:
                 System.out.println("Ile ustawić słów dziennie?");
                 int newWordsPerSession = input.readNumber();
-                wordService.setWordsPerSessionCount(newWordsPerSession);
+                wordService.changeSessionSize(newWordsPerSession);
                 System.out.println("Wielkość dziennej sesji zaktualizowana!");
+                break;
+            case 4:
+                selectCategory();
+
             default:
                 System.out.println("Zły wybór. Wybierz opcje z listy.");
         }
     }
 
+    private void selectCategory() {
+        System.out.println("Jaką kategorię chcesz ustawić?");
+        List<String> categories = wordService.getAllCategories(); //dosłownie wszystkie możliwe kategorie przećwiczone bądź nie
+        for (int i = 0; i < categories.size(); i++) {
+            String category = categories.get(i);
+            System.out.println(i+1 + ". " + category);
+        }
+        int userCategoryIndex = input.readNumber() - 1;
+        String selectedCategory = categories.get(userCategoryIndex);
+        wordService.changeCategory(selectedCategory);
+        System.out.println("Ustawiłeś kategorię "+ selectedCategory);
+    }
+
     private void practice() {
         oneWordPractice();
-     /*   if (wordService.isDailySesionOver()) {
-            System.out.println("Gratulacje! Wszystkie słowa przećwiczone, przyjdź jutro ćwiczyć kolejne");
-        }*/
     }
 
     private void oneWordPractice() {
-       /*docelowa wersja
-       PracticeSession practiceSession= wordService.getPracticeSession();
-        System.out.println("Jesteś w trybie pisania po: " + practiceSession.getLaguage());
-        System.out.println("Zostało słówek: " + practiceSession.getWordsCount());
-        Language typingLanguage = practiceSession.getLanguage().getSecond();
-        Word word = wordService.getRandomWord();
-        System.out.println("Przetłumacz: " + word.getWordByLanguage(typingLanguage) + "?");
-        String answer = input.readText();
-        boolean correct = wordService.tryAnswer(answer, word);
-        if (correct) {
-            System.out.println("Dobra odpowiedź!");
-        } else {
-            System.out.println("Zła odpowiedź!");
-        }*/
-
-        if (wordService.getWordsCount() == 0) {
+               if (wordService.getWordsCount() == 0) {
             System.out.println("Przyjdź później, koniec słów");
             return;
         }
