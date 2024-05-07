@@ -67,12 +67,12 @@ public class MainController {
         List<String> categories = wordService.getAllCategories(); //dosłownie wszystkie możliwe kategorie przećwiczone bądź nie
         for (int i = 0; i < categories.size(); i++) {
             String category = categories.get(i);
-            System.out.println(i+1 + ". " + category);
+            System.out.println(i + 1 + ". " + category);
         }
         int userCategoryIndex = input.readNumber() - 1;
         String selectedCategory = categories.get(userCategoryIndex);
         wordService.changeCategory(selectedCategory);
-        System.out.println("Ustawiłeś kategorię "+ selectedCategory);
+        System.out.println("Ustawiłeś kategorię " + selectedCategory);
     }
 
     private void practice() {
@@ -80,7 +80,7 @@ public class MainController {
     }
 
     private void oneWordPractice() {
-               if (wordService.getWordsCount() == 0) {
+        if (wordService.getWordsCount() == 0) {
             System.out.println("Przyjdź później, koniec słów");
             return;
         }
