@@ -155,7 +155,6 @@ public class WordService {
     }
 }
 
-
 //ukrywanie zrobionych
 
 //todo space distribution - jak czesto sa przypominane slowa, jakby to mialo dzialac, na bazie tego czy dobrze odpowiedzielismy, zaplanowac schemat powtórki słówek, jeśli dobrze odpowiedziałęś to przypomni np za 3 dni
