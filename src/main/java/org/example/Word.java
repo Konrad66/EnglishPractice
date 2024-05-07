@@ -9,8 +9,6 @@ public class Word {
     private String category;
 
 
-
-
     Word(String polishWord, String englishWord, int attempt, int correctAttemptsPolish, int correctAttemptsEnglish, String category) {
         this.polishWord = polishWord;
         this.englishWord = englishWord;
@@ -34,13 +32,13 @@ public class Word {
 
     public boolean isPracticed(Language language) {
         int correctAttemptsByLanguage;
-        if(language.equals(Language.POLISH)){
+        if (language.equals(Language.POLISH)) {
             correctAttemptsByLanguage = correctAttemptsPolish;
         } else {
             correctAttemptsByLanguage = correctAttemptsEnglish;
         }
 
-        if(correctAttemptsByLanguage >= 1){
+        if (correctAttemptsByLanguage >= 1) {
             return true;
         }
         return false;
@@ -51,7 +49,7 @@ public class Word {
     }
 
     public void incrementNumberOfCorrectAttempts(Language language) {
-        if(language.equals(Language.POLISH)){
+        if (language.equals(Language.POLISH)) {
             correctAttemptsPolish++;
         } else {
             correctAttemptsEnglish++;
