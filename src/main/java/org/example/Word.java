@@ -30,7 +30,7 @@ public class Word {
         return category;
     }
 
-    public boolean isPracticed(Language language) {
+    public boolean            isPracticed(Language language) {
         int correctAttemptsByLanguage;
         if (language.equals(Language.POLISH)) {
             correctAttemptsByLanguage = correctAttemptsPolish;
