@@ -159,5 +159,10 @@ public class WordService {
 
 //todo space distribution - jak czesto sa przypominane slowa, jakby to mialo dzialac, na bazie tego czy dobrze odpowiedzielismy, zaplanowac schemat powtórki słówek, jeśli dobrze odpowiedziałęś to przypomni np za 3 dni
 
+
+//każde słowo przypomina 3 razy
+// jeżeli odpowiedzieliśmy źle to przypomni jeszcze raz podczas tej samej sesji nauki i na następny dzień, jak odpowiemy dobrze to przypomni za 2 dni
+// jeśli dobrze to kolejnego dnia i kolejne dwa dni późńiej
+
 //jeśli dobrze odpowiedziałeś to przypomni za 3 min a jeśli nie to za 1 min
 //3 min / 9 min /
