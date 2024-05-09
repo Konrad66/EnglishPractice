@@ -1,17 +1,15 @@
 package org.example;
 
-import java.io.*;
 import java.util.*;
 
 public class WordService {
 
-    private static final String DEFAULT_CATEGORY = "all";
-    private int singleSessionSize;
-    private String actualCategory = DEFAULT_CATEGORY;
+
     private List<Word> words;
-    private List<Word> wordsSession;
-    private Language typingLanguage = Language.POLISH;
-    private WordFileRepository wordFileRepository = new WordFileRepository();
+    private Settings settings;
+
+    private WordFileRepository wordFileRepository;
+  private   PracticeService practiceService;
 
     //w momencie tworzenia Listy musimy przypisać do niej pustą listę inaczej zwróci null
     //pola są inicjowane domyślnymi wartościami. dla typów prymitywnych: 0 lub false. Dla obiktowych null
@@ -20,72 +18,43 @@ public class WordService {
     //zmienna zadeklarowana w metodzie to zmienna lokalna
 
     public WordService() {
+        wordFileRepository = new WordFileRepository();
         words = wordFileRepository.loadAllWords();
-        singleSessionSize = wordFileRepository.loadSessionSize();
-        reloadSession();
-        if (wordsSession.isEmpty()) {
-            changeTypingLanguage(Language.ENGLISH);
-        }
+        settings = wordFileRepository.loadSettings();
+        practiceService = new PracticeService(settings, words);
     }
 
-    void save(){
+    void save() {
         wordFileRepository.save(words);
-        wordFileRepository.saveSingleSessionSize(singleSessionSize);
+        wordFileRepository.saveSettings(settings);
     }
 
-    int reloadSession() {
-        wordsSession = new ArrayList<>();
-        for (int i = 0; wordsSession.size() < singleSessionSize && i < words.size(); i++) {
-            Word choosenWord = words.get(i);
-            if (!choosenWord.isPracticed(typingLanguage)) {
-                if (actualCategory.equals(DEFAULT_CATEGORY) || choosenWord.getCategory().equals(actualCategory)) {
-                    //jeśli aktualna kategoria jest all a jesli nie to kategoria rozpatrywanego słowa jest taka jaka wybvral użytkownik
-                    wordsSession.add(choosenWord);
-                }
-            }
-        }
-        return singleSessionSize;
+    Word getRandomWord(){
+        return  practiceService.getRandomWord();
+    }
+
+    boolean tryAnswer(String answer, Word word){
+        return practiceService.tryAnswer(answer, word);
+    }
+
+
+    void changeSessionSize(int newWordsPerSession) {
+        settings.setSingleSessionSize(newWordsPerSession);
+        practiceService.reloadSession();
+    }
+
+    void changeCategory(String selectedCategory) {
+        settings.setActualCategory(selectedCategory);
+        practiceService.reloadSession();
     }
 
     List<Word> getAllWords() {
         return words;
     }
 
-    Word getRandomWord() {
-        Random random = new Random();
-        int randomIndex = random.nextInt(wordsSession.size());
-        return wordsSession.get(randomIndex);
-    }
-
-    boolean tryAnswer(String answer, Word word) {
-        word.incrementAttempt();
-        if (answer.equals(word.getWordByLanguage(getTypingLanguage()))) {
-            wordsSession.remove(word);
-            word.incrementNumberOfCorrectAttempts(getTypingLanguage());
-            return true;
-        }
-        return false;
-    }
-
-    int getWordsCount() {
-        return wordsSession.size();
-    }
-
-    int getSingleSessionSize() {
-        return singleSessionSize;
-    }
-
-    Language getTypingLanguage() {
-        return typingLanguage;
-    }
-
-    String getActualCategory() {
-        return actualCategory;
-    }
-
     List<String> getAllCategories() {
         List<String> categories = new ArrayList<>();
-        categories.add(DEFAULT_CATEGORY);
+        categories.add(Settings.DEFAULT_CATEGORY);
         for (Word word : words) {
             if (!categories.contains(word.getCategory())) {
                 categories.add(word.getCategory());
@@ -94,35 +63,29 @@ public class WordService {
         return categories;
     }
 
-    void changeCategory(String selectedCategory) {
-        actualCategory = selectedCategory;
-        reloadSession();
+    int getSingleSessionSize() {
+        return settings.getSingleSessionSize();
     }
 
-    void changeSessionSize(int newWordsPerSession) {
-        singleSessionSize = newWordsPerSession;
-        reloadSession();
+    String getActualCategory() {
+        return settings.getActualCategory();
     }
 
-    private void changeTypingLanguage(Language selectedLanguage) {
-        typingLanguage = selectedLanguage;
-        reloadSession();
+    public int getWordsCount() {
+        return practiceService.getWordsCount();
+    }
+
+    public Language getTypingLanguage() {
+        return settings.getTypingLanguage();
     }
 }
 
 
-
 //moduł utrwalania w pliku
-    //odczyt i zapis
-    //ustawienia programu i pytania
+//odczyt i zapis
+//ustawienia programu i pytania
 //moduł ćwiczenia angielskiego
-    //tryb nowych słów i tryb powtórek
-
-
-
-
-
-
+//tryb nowych słów i tryb powtórek
 
 
 //todo space distribution - jak czesto sa przypominane slowa, jakby to mialo dzialac, na bazie tego czy dobrze odpowiedzielismy, zaplanowac schemat powtórki słówek, jeśli dobrze odpowiedziałęś to przypomni np za 3 dni

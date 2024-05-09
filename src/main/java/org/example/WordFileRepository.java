@@ -44,21 +44,21 @@ public class WordFileRepository {
         }
     }
 
-    void saveSingleSessionSize(int singleSessionSize){ //todo refactor
+    void saveSettings(Settings settings){ //todo refactor
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(FILE_PATH_SESSION_SIZE))) {
             //FileOutputStream fileOutputStream
-            objectOutputStream.writeInt(singleSessionSize);
+            objectOutputStream.writeInt(settings.getSingleSessionSize());
         } catch (IOException e) {
             System.out.println("Błąd z zapisem pliku: " + FILE_PATH_SESSION_SIZE);
         }
     }
 
-    int loadSessionSize() {
+    Settings loadSettings() {
         try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(FILE_PATH_SESSION_SIZE))) {
-            return objectInputStream.readInt();
+            return new Settings(objectInputStream.readInt());
         } catch (IOException e) {
             System.out.println("Błąd z odczytem pliku: " + FILE_PATH_SESSION_SIZE);
         }
-        return DEFAULT_SESSION_SIZE;
+        return new Settings(DEFAULT_SESSION_SIZE);
     }
 }
