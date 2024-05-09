@@ -20,14 +20,15 @@ public class MainController {
 
     private void printOptions() {
         System.out.println("Witaj w programie do nauki słówek!");
-        System.out.println("Program ustawiony na trenowanie " + wordService.getSingleSessionSize() + " słów dziennie");
-        System.out.println("Program ustawiony na kategorię: " + wordService.getActualCategory());
+        System.out.println("Program ustawiony na trenowanie " + wordService.getSingleSessionSize() + " nowych słów dziennie");
+        System.out.println("Program ustawiony na kategorię: " + wordService.getActualCategory() + " dla nowych słów");
 
         System.out.println("Co chcesz zrobić?");
         System.out.println("1. Wyświetl wszystkie fiszki");
-        System.out.println("2. Poćwicz słówka");
-        System.out.println("3. Zmienić ilość słów dziennie");
-        System.out.println("4. Zmień kategorię");
+//        System.out.println("2. Zrób powtórkę poznanych słów: "+ wordService.getWordsToReplay());
+        System.out.println("3. Poćwicz nowe słowa: " + wordService.getSingleSessionSize());
+        System.out.println("4. Zmienić ilość nowych słów dziennie");
+        System.out.println("5. Zmień kategorię dla nowych słów");
         System.out.println("0. Koniec");
     }
 
@@ -46,15 +47,17 @@ public class MainController {
                 }
                 break;
             case 2:
+                replayWords();
+            case 3:
                 practice();
                 break;
-            case 3:
-                System.out.println("Ile ustawić słów dziennie?");
+            case 4:
+                System.out.println("Ile ustawić nowych słów dziennie?");
                 int newWordsPerSession = input.readNumber();
                 wordService.changeSessionSize(newWordsPerSession);
                 System.out.println("Wielkość dziennej sesji zaktualizowana!");
                 break;
-            case 4:
+            case 5:
                 selectCategory();
 
             default:
@@ -75,11 +78,11 @@ public class MainController {
         System.out.println("Ustawiłeś kategorię " + selectedCategory);
     }
 
-    private void practice() {
-        oneWordPractice();
+    private void replayWords() {
+
     }
 
-    private void oneWordPractice() {
+    private void practice() {
         if (wordService.getWordsCount() == 0) {
             System.out.println("Przyjdź później, koniec słów");
             return;
