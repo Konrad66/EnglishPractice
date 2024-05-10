@@ -9,7 +9,7 @@ public class WordService {
     private Settings settings;
 
     private WordFileRepository wordFileRepository;
-  private   PracticeService practiceService;
+    private PracticeService practiceService;
 
     //w momencie tworzenia Listy musimy przypisać do niej pustą listę inaczej zwróci null
     //pola są inicjowane domyślnymi wartościami. dla typów prymitywnych: 0 lub false. Dla obiktowych null
@@ -29,11 +29,11 @@ public class WordService {
         wordFileRepository.saveSettings(settings);
     }
 
-    Word getRandomWord(){
-        return  practiceService.getRandomWord();
+    Word getRandomWord() {
+        return practiceService.getRandomWord();
     }
 
-    boolean tryAnswer(String answer, Word word){
+    boolean tryAnswer(String answer, Word word) {
         return practiceService.tryAnswer(answer, word);
     }
 
