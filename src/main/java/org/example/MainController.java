@@ -59,7 +59,6 @@ public class MainController {
                 break;
             case 5:
                 selectCategory();
-
             default:
                 System.out.println("Zły wybór. Wybierz opcje z listy.");
         }
@@ -79,7 +78,6 @@ public class MainController {
     }
 
     private void replayWords() {
-
     }
 
     private void practice() {
