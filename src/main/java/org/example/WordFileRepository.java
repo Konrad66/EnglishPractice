@@ -44,7 +44,7 @@ public class WordFileRepository {
         }
     }
 
-    void saveSettings(Settings settings){ //todo refactor
+    void saveSettings(Settings settings) { //todo refactor
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(FILE_PATH_SESSION_SIZE))) {
             //FileOutputStream fileOutputStream
             objectOutputStream.writeInt(settings.getSingleSessionSize());
